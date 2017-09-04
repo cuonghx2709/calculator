@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView textView;
 
     private double number = 0;
-    private double cachNumber = 0;
-    private int status = 0;
+    private double cacheNumber = 0;
+    private int status;
     private boolean change = false;
     private boolean error;
 
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void init() {
+        status = 0;
         button_0 = (Button) findViewById(R.id.bt_0);
         button_1 = (Button) findViewById(R.id.bt_1);
         button_2 = (Button) findViewById(R.id.bt_2);
@@ -100,105 +101,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_0:
-                if (change){
-                    number = 0;
-                    change = false;
-                }else if (error){
-                    error = false;
-                    number = 0;
-                }
-                number  = number * 10 ;
+                changeNumber(0);
+
                 break;
             case R.id.bt_1:
-                if (change){
-                    number = 0;
-                    change = false;
-                }else if (error){
-                    error = false;
-                    number  = 0;
-
-                }
-                number = number * 10 + 1;
+                changeNumber(1);
                 break;
             case R.id.bt_2:
-                if (change){
-                    number = 0;
-                    change = false;
-                }else if (error){
-                    error = false;
-                    number = 0;
-                }
-                number = number * 10 + 2;
+                changeNumber(2);
                 break;
             case R.id.bt_3:
-                if (change){
-                    number = 0;
-                    change = false;
-                }else if (error){
-                    error = false;
-                    number = 0;
-                }
-                number = number * 10 + 3;
+                changeNumber(3);
                 break;
             case R.id.bt_4:
-                if (change){
-                    number = 0;
-                    change = false;
-                }else if (error){
-                    error = false;
-                    number = 0;
-                }
-                number  = number * 10 + 4;
+                changeNumber(4);
                 break;
             case R.id.bt_5:
-                if (change){
-                    number = 0;
-                    change = false;
-                }else if (error){
-                    error = false;
-                    number = 0;
-                }
-                number  = number * 10 + 5;
+                changeNumber(5);
                 break;
             case R.id.bt_6:
-                if (change){
-                    number = 0;
-                    change =  false;
-                }else if (error){
-                    error = false;
-                    number = 0;
-                }
-                number  = number * 10 + 6;
+                changeNumber(6);
                 break;
             case R.id.bt_7:
-                if (change){
-                number = 0;
-                change = false;
-                }else if (error){
-                    error = false;
-                    number = 0;
-                }
-                number  = number * 10 + 7;
+                changeNumber(7);
                 break;
             case R.id.bt_8:
-                if (change){
-                    number = 0;
-                    change = false;
-                }else if (error){
-                    error = false;
-                    number = 0;
-                }
-                number  = number * 10 + 8;
+                changeNumber(8);
                 break;
             case R.id.bt_9:
-                if (change){
-                    number = 0;
-                    change = false;
-                }else if (error){
-                    error = false;
-                    number = 0;
-                }
-                number  = number * 10 + 9;
+                changeNumber(9);
                 break;
             case R.id.rl_add:
                 count(1);
@@ -215,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.bt_del:
                 error = false;
                 number = 0;
-                cachNumber = 0;
+                cacheNumber = 0;
                 status = 0;
                 break;
             case R.id.bt_final:
@@ -227,9 +158,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.bt_percent:
                 number = number / 100 ;
-                cachNumber = number;
+                cacheNumber = number;
                 break;
             case R.id.bt_:
+                number = 0;
+                cacheNumber = 0;
+                status = 0;
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.addCategory(Intent.CATEGORY_HOME);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -237,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
 
-//        changeColor();
+        changeColor();
 
 
         if (error){
@@ -254,56 +188,71 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-//    private void changeColor() {
-//        switch (status){
-//            case 1:
-//                relativeLayout_add.setBackgroundColor(Color.GRAY);
-//                break;
-//            case 2:
-//                relaytiveLayout_subtract.setBackgroundColor(Color.GRAY);
-//                break;
-//            case 3:
-//                relaytiveLayout_x.setBackgroundColor(Color.GRAY);
-//                break;
-//            case 4:
-//                relaytiveLayout_division.setBackgroundColor(Color.GRAY);
-//                break;
-//            default:
-//                relativeLayout_add.setBackgroundColor(Color.WHITE);
-//                relaytiveLayout_subtract.setBackgroundColor(Color.WHITE);
-//                relaytiveLayout_x.setBackgroundColor(Color.WHITE);
-//                relaytiveLayout_division.setBackgroundColor(Color.WHITE);
-//                break;
-//        }
-//    }
+    private void changeNumber(int n) {
+        if (change){
+            number = 0;
+            change = false;
+        }else if (error){
+            error = false;
+            number = 0;
+        }
+        number  = number * 10  + n;
+    }
+
+    private void changeColor() {
+        switch (status){
+            case 1:
+                reset();
+                relativeLayout_add.setBackgroundColor(Color.GRAY);
+                break;
+            case 2:
+                reset();
+                relaytiveLayout_subtract.setBackgroundColor(Color.GRAY);
+                break;
+            case 3:
+                reset();
+                relaytiveLayout_x.setBackgroundColor(Color.GRAY);
+                break;
+            case 4:
+                reset();
+                relaytiveLayout_division.setBackgroundColor(Color.GRAY);
+                break;
+            default:
+                reset();
+                break;
+        }
+    }
+
+    private void reset() {
+        relativeLayout_add.setBackgroundColor(Color.WHITE);
+        relaytiveLayout_subtract.setBackgroundColor(Color.WHITE);
+        relaytiveLayout_x.setBackgroundColor(Color.WHITE);
+        relaytiveLayout_division.setBackgroundColor(Color.WHITE);
+    }
 
 
     private void  count(int n){
+        change = true;
         if (status == 0){
-            cachNumber = number;
-            number = 0;
+            cacheNumber = number;
             status = n;
         }else {
-            change = true;
             if (status == 1){
-                number = number + cachNumber;
-                cachNumber = number;
+                number = number + cacheNumber;
+                cacheNumber = number;
                 status = n;
-            }
-            if (status == 2){
-                number = cachNumber - number;
-                cachNumber = number;
+            }else if (status == 2){
+                number = cacheNumber - number;
+                cacheNumber = number;
                 status = n;
-            }
-            if (status == 3){
-                number = cachNumber * number;
-                cachNumber = number;
+            }else if (status == 3){
+                number = cacheNumber * number;
+                cacheNumber = number;
                 status = n;
-            }
-            if (status == 4){
+            } else if (status == 4){
                 if (number != 0){
-                    number = cachNumber / number;
-                    cachNumber = number;
+                    number = cacheNumber / number;
+                    cacheNumber = number;
                     status = n;
                 }else {
                     error = true;
