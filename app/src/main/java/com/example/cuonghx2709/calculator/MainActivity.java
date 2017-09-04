@@ -150,8 +150,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 status = 0;
                 break;
             case R.id.bt_final:
-                if (status != 0)
-                count(0);
+                if (status != 0) {
+                    change = false;
+                    count(0);
+                }
                 break;
             case R.id.bt_change:
                 number = -number;
@@ -232,30 +234,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void  count(int n){
-        change = true;
-        if (status == 0){
-            cacheNumber = number;
+        if (change){
             status = n;
         }else {
-            if (status == 1){
-                number = number + cacheNumber;
+            change = true;
+            if (status == 0) {
                 cacheNumber = number;
                 status = n;
-            }else if (status == 2){
-                number = cacheNumber - number;
-                cacheNumber = number;
-                status = n;
-            }else if (status == 3){
-                number = cacheNumber * number;
-                cacheNumber = number;
-                status = n;
-            } else if (status == 4){
-                if (number != 0){
-                    number = cacheNumber / number;
+            } else {
+                if (status == 1) {
+                    number = number + cacheNumber;
                     cacheNumber = number;
                     status = n;
-                }else {
-                    error = true;
+                } else if (status == 2) {
+                    number = cacheNumber - number;
+                    cacheNumber = number;
+                    status = n;
+                } else if (status == 3) {
+                    number = cacheNumber * number;
+                    cacheNumber = number;
+                    status = n;
+                } else if (status == 4) {
+                    if (number != 0) {
+                        number = cacheNumber / number;
+                        cacheNumber = number;
+                        status = n;
+                    } else {
+                        error = true;
+                    }
                 }
             }
         }
